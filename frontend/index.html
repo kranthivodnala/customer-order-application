@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Items</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Place Your Order</h1>
+  <form id="orderForm">
+    <label>
+      Select Item:
+      <select id="item" name="item">
+        <option value="Laptop">Laptop</option>
+        <option value="Phone">Phone</option>
+        <option value="Headphones">Headphones</option>
+      </select>
+    </label>
+    <label>
+      Quantity:
+      <input type="number" id="quantity" name="quantity" required>
+    </label>
+    <button type="submit">Submit Order</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const item = document.getElementById('item').value;
+      const quantity = document.getElementById('quantity').value;
+
+      const response = await fetch('https://<YOUR_API_GATEWAY_URL>/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item, quantity })
+      });
+
+      const result = await response.json();
+      document.getElementById('response').innerText = result.message;
+    });
+  </script>
+</body>
+</html>
